@@ -1,0 +1,80 @@
+type:	project
+name:	rapidbuilder
+desc:	"A cool project builder that does away with conventional ones."
+langs:	c gfm sh
+cc:	gcc
+gfmv:	less
+sh:	zsh -x
+cflags	{
+	always:	-O2
+	native:	-march=native -mtune=native
+	warn:	-Wall -Wextra
+	quiet:	-w
+	debug:	-g
+	lib:	-c
+	1 link: -o
+}
+
+query	boolcat	universal	cflags.native	"Is this a machine-native build? [[Y]/N]"
+query	boolcat	universal	cflags.warn	"Do you want all warnings? [Y/[N]]"
+query	boolcat	universal	cflags.quiet	"Do you want no non-critical warnings? [[Y]/N]"
+query	boolcat	universal	cflags.debug	"Is this a debug build? [Y/[N]]"
+
+=====deplist=====
+
+rapidbuilder {
+	type:	file
+	lang:	c
+	file:	rapidbuilder.c
+	cflags:	always query.universal link(rapidbuilder)
+	deps:	rpdefs
+	finish:	rapidbuilder-done
+}
+
+rapidbuilder-done {
+	type:	finish
+	lang:	gfm
+	file:	DONE.md
+	deps:	rapidbuilder
+	finish: none
+}
+
+rpdefs {
+	type:	dep
+	deps:	c-rpdef gfm-rpdef sh-rpdef
+}
+
+c-rpdef {
+	type:	file
+	lang:	c
+	file:	rpdef/c.c
+	cflags:	always query.universal lib
+	deps:	none
+	finish:	none
+}
+
+gfm-rpdef {
+	type:	file
+	lang:	c
+	file:	rpdef/gfm.c
+	cflags:	always query.universal lib
+	deps:	none
+	finish:	none
+}
+
+sh-rpdef {
+	type:	file
+	lang:	c
+	file:	rpdef/sh.c
+	cflags:	always query.universal lib
+	deps:	none
+	finish:	none
+}
+
+clean {
+	type:	file
+	lang:	sh
+	file:	clean.sh
+	deps:	none
+	finish:	none
+}
