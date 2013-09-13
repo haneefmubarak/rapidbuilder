@@ -2,7 +2,7 @@ type:	project
 name:	rapidbuilder
 desc:	"A cool project builder that does away with conventional ones."
 langs:	c gfm sh
-cc:	gcc
+select	1	("gcc" | "clang")	"Choose a C compiler: [gcc/[clang]]"
 gfmv:	less
 sh:	zsh -x
 cflags	{
@@ -12,13 +12,12 @@ cflags	{
 	quiet:	-w
 	debug:	-g
 	lib:	-c
-	1 link: -o
 }
 
-query	boolcat	universal	cflags.native	"Is this a machine-native build? [[Y]/N]"
-query	boolcat	universal	cflags.warn	"Do you want all warnings? [Y/[N]]"
-query	boolcat	universal	cflags.quiet	"Do you want no non-critical warnings? [[Y]/N]"
-query	boolcat	universal	cflags.debug	"Is this a debug build? [Y/[N]]"
+query	boolcat	1	universal	cflags.native	"Is this a machine-native build? [[Y]/N]"
+query	boolcat	0	universal	cflags.warn	"Do you want all warnings? [Y/[N]]"
+query	boolcat	1	universal	cflags.quiet	"Do you want no non-critical warnings? [[Y]/N]"
+query	boolcat	0	universal	cflags.debug	"Is this a debug build? [Y/[N]]"
 
 =====deplist=====
 
@@ -26,8 +25,16 @@ rapidbuilder {
 	type:	file
 	lang:	c
 	file:	rapidbuilder.c
-	cflags:	always query.universal link(rapidbuilder)
+	cflags:	always query.universal lib
 	deps:	rpdefs
+	finish:	rapidbuilder-link
+}
+
+rapidbuilder-link {
+	type:	link
+	lang:	c
+	files:	rapidbuilder c-rpdef gfm-rpdef sh-rpdef
+	deps:	rapidbuilder
 	finish:	rapidbuilder-done
 }
 
