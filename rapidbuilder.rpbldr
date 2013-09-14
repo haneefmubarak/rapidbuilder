@@ -12,6 +12,7 @@ cflags	{
 	quiet:	-w
 	debug:	-g
 	lib:	-c
+	link:	-l
 }
 
 query	boolcat	1	universal	cflags.native	"Is this a machine-native build? [[Y]/N]"
