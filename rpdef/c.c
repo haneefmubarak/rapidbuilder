@@ -1,4 +1,4 @@
-// #include "c.h"
+#include "c.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,3 +9,4 @@ int whichCC (unsigned char *cc) {
 	strcat (whichCC, cc); // Append the name of the compiler
 	return system (whichCC);
 }
+
