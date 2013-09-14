@@ -2,7 +2,7 @@ type:	project
 name:	rapidbuilder
 desc:	"A cool project builder that does away with conventional ones."
 langs:	c gfm sh
-select	1	("gcc" | "clang")	"Choose a C compiler: [gcc/[clang]]"
+select	cc	1	("gcc" | "clang")	"Choose a C compiler: [gcc/[clang]]"
 gfmv:	less
 sh:	zsh -x
 cflags	{
