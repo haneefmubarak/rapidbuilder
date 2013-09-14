@@ -8,7 +8,7 @@ typedef struct {
 	char *debug;
 	char *lib;
 	char *link;
-} cflags;
+} cflaglist;
 
 extern int whichCC (unsigned char *);
 
