@@ -11,3 +11,4 @@ typedef struct {
 } cflaglist;
 
 extern int whichCC (char *);
+extern void parseCFlags (FILE *, cflaglist *);
