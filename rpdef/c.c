@@ -34,33 +34,43 @@ void parseCFlags (FILE *buildfile, cflaglist *cflags) {
 		fgetc (buildfile);
 		y = y ^ fgetc (buildfile);
 
+		assert (!(readuntil (buildfile, ':'))); // Move the byte pointer to ":"
+		assert (!(fgets (line, maxlinesize, buildfile))); // Get the rest of the line
+
 		switch (y) {
 			case 0x16 : { // 'always' = aXORw
-			
+				cflags->always = strdup (line);
+				assert (cflags->always);
 			}
 
 			case 0x1A : { // 'native' = nXORt
-
+				cflags->native = strdup (line);
+				assert (cflags->native);
 			}
 
 			case 0x05 : { // 'warn' = wXORr
-
+				cflags->warn = strdup (line);
+				assert (cflags->warn);
 			}
 
 			case 0x18 : { // 'quiet' = qXORi
-
+				cflags->quiet = strdup (line);
+				assert (cflags->quiet);
 			}
 
 			case 0x06 : { // 'debug' = dXORb
-
+				cflags->debug = strdup (line);
+				assert (cflags->debug);
 			}
 
 			case 0x0E : { // 'lib' = lXORb
-
+				cflags->lib = strdup (line);
+				assert (cflags->lib);
 			}
 
 			case 0x02 : { // 'link' = lXORn
-
+				cflags->link = strdup (line);
+				assert (cflags->link);
 			}
 
 			default : {
@@ -74,13 +84,13 @@ void parseCFlags (FILE *buildfile, cflaglist *cflags) {
 }
 
 inline int readuntil (FILE *stream, char until) {
-	register char x;
+	register char c;
 
 	do {
-		x = fgetc (stream);
-	} while (!( (x == until) || (x == EOF) )); // Finish off if the character is correct or you hit EOF
+		c = fgetc (stream);
+	} while (!( (c == until) || (c == EOF) )); // Finish off if the character is correct or you hit EOF
 
-	if (x == EOF) { perror ("Like seriously? I just got EOF'ed! Like WTH?!?!?"); return 1; }
+	if (c == EOF) { perror ("Like seriously? I just got EOF'ed! Like WTH?!?!?"); return 1; }
 
 	return 0;
 }
