@@ -1,5 +1,7 @@
 // c.h -- header file for rpdef C
 
+#pragma once
+
 typedef struct {
 	char *always;
 	char *native;
