@@ -1,9 +1,12 @@
-#include "c.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <assert.h>
+
+#include "c.h"
+
+inline int readuntil (FILE *, char);
 
 int whichCC (char *cc) {
 	char * whichCC = malloc (19 + strlen (cc)); // Allocate enough memory for "env which"...
@@ -68,4 +71,16 @@ void parseCFlags (FILE *buildfile, cflaglist *cflags) {
 	}
 
 	return;
+}
+
+inline int readuntil (FILE *stream, char until) {
+	register char x;
+
+	do {
+		x = fgetc (stream);
+	} while (!( (x == until) || (x == EOF) )); // Finish off if the character is correct or you hit EOF
+
+	if (x == EOF) { perror ("Like seriously? I just got EOF'ed! Like WTH?!?!?"); return 1; }
+
+	return 0;
 }
