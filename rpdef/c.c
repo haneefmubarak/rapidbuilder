@@ -5,9 +5,9 @@
 #include <unistd.h>
 #include <assert.h>
 
-int whichCC (unsigned char *cc) {
+int whichCC (char *cc) {
 	char * whichCC = malloc (19 + strlen (cc)); // Allocate enough memory for "env which"...
-	assert (
+	assert (whichCC);
 	strcpy (whichCC, "/usr/bin/env which ");
 	strcat (whichCC, cc); // Append the name of the compiler
 	return system (whichCC);
@@ -17,7 +17,7 @@ void parseCFlags (FILE *buildfile, cflaglist *cflags) {
 	unsigned int maxlinesize;
 
 	if (getpagesize () > 1024) { maxlinesize = getpagesize (); }
-	else { maxlinesize = 1024 }
+	else { maxlinesize = 1024; }
 
 	char *line;
 	assert (line = malloc (maxlinesize));
@@ -33,7 +33,7 @@ void parseCFlags (FILE *buildfile, cflaglist *cflags) {
 
 		switch (y) {
 			case 0x16 : { // 'always' = aXORw
-
+			
 			}
 
 			case 0x1A : { // 'native' = nXORt
@@ -62,7 +62,7 @@ void parseCFlags (FILE *buildfile, cflaglist *cflags) {
 
 			default : {
 				perror ("Can't parse one of your cflags lines. Bye.\n");
-				exit();
+				exit(17);
 			}
 		}
 	}

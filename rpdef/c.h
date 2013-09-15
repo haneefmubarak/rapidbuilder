@@ -10,5 +10,4 @@ typedef struct {
 	char *link;
 } cflaglist;
 
-extern int whichCC (unsigned char *);
-
+extern int whichCC (char *);
