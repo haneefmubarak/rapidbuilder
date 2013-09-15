@@ -13,7 +13,9 @@ int whichCC (char *cc) {
 	assert (whichCC);
 	strcpy (whichCC, "/usr/bin/env which ");
 	strcat (whichCC, cc); // Append the name of the compiler
-	return system (whichCC);
+	register int x = system (whichCC);
+	free (whichCC);
+	return x;
 }
 
 void parseCFlags (FILE *buildfile, cflaglist *cflags) {
@@ -80,6 +82,7 @@ void parseCFlags (FILE *buildfile, cflaglist *cflags) {
 		}
 	}
 
+	free(line);
 	return;
 }
 
