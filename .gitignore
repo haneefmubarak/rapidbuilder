@@ -15,3 +15,7 @@
 *.exe
 *.out
 *.app
+
+# In progress testing files
+*.code-test
+*.code-test.*
